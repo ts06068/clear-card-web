@@ -1,0 +1,33 @@
+{
+  "name": "clear-card-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "predev": "node -e \"const fs=require('fs');const path=require('path');const cwd=process.cwd();const hasRoot=fs.existsSync(path.join(cwd,'src','app'))||fs.existsSync(path.join(cwd,'app'))||fs.existsSync(path.join(cwd,'pages'));if(!hasRoot){console.error('\\nProject root not detected from npm script cwd: '+cwd+'\\nIf this path is C:\\\\Windows while running from WSL, you are using Windows npm/node inside a Linux shell. Install Node inside WSL or run the project from a Windows path, then reinstall dependencies.\\n');process.exit(1)}\"",
+    "dev": "next dev",
+    "prebuild": "npm run predev",
+    "build": "next build",
+    "prelint": "npm run predev",
+    "lint": "eslint . --max-warnings=0",
+    "pretypecheck": "npm run predev",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "echarts": "^5.6.0",
+    "echarts-for-react": "^3.0.2",
+    "next": "^15.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.25.0",
+    "eslint-config-next": "^15.3.0",
+    "postcss": "^8.5.0",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.0"
+  }
+}
