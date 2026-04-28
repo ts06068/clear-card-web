@@ -2,19 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Google Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/googlesans/v27/4UaGrENHsxJlGDuGo1OIlL3Owp4.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Google Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/googlesans/v27/4UabrENHsxJlGDuGo1OIlLU94YtzCwY.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Google Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/googlesans/v27/4UabrENHsxJlGDuGo1OIlLU94YtzCwY.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Google Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/googlesans/v27/4UabrENHsxJlGDuGo1OIlLU94YtzCwY.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
-  --color-navy: #081f3d;
-  --color-ink: #101828;
-  --color-slate: #425466;
-  --color-muted: #6b7a90;
-  --color-line: #d8dee8;
-  --color-surface: #f7f9fc;
-  --color-crimson: #a22a2f;
-  --color-blue: #1f5d8c;
-  --color-teal: #397c7a;
-  --color-gold: #a67c2d;
-  --page-bg: #f7f9fc;
-  --card-bg: rgba(255, 255, 255, 0.92);
+  --color-navy: #1a73e8;
+  --color-ink: #202124;
+  --color-slate: #3c4043;
+  --color-muted: #5f6368;
+  --color-line: #e0e3eb;
+  --color-surface: #f8fafd;
+  --color-crimson: #d93025;
+  --color-blue: #1a73e8;
+  --color-teal: #12a182;
+  --color-gold: #f9ab00;
+  --page-bg: #f8fafd;
+  --card-bg: rgba(255, 255, 255, 0.78);
 }
 
 html {
@@ -25,11 +61,12 @@ html {
 body {
   color: var(--color-ink);
   background:
-    linear-gradient(135deg, rgba(31, 93, 140, 0.12), transparent 36%),
-    linear-gradient(315deg, rgba(162, 42, 47, 0.08), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95), transparent 26rem),
+    linear-gradient(135deg, rgba(26, 115, 232, 0.10), transparent 34rem),
+    linear-gradient(315deg, rgba(18, 161, 130, 0.08), transparent 28rem),
     var(--page-bg);
   font-family:
-    "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Google Sans", "Product Sans", "Helvetica Neue", Arial, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
   font-size: 17px;
 }
@@ -38,10 +75,10 @@ body {
   --color-ink: #eef3f9;
   --color-slate: #c7d2df;
   --color-muted: #91a0b5;
-  --color-line: #26364d;
-  --color-surface: #0d1626;
-  --page-bg: #08111f;
-  --card-bg: rgba(13, 22, 38, 0.86);
+  --color-line: #2f3542;
+  --color-surface: #111318;
+  --page-bg: #111318;
+  --card-bg: rgba(28, 30, 36, 0.78);
 }
 
 ::selection {
@@ -60,7 +97,7 @@ body {
 
 @layer components {
   .academic-card {
-    @apply rounded-lg border border-journal-line bg-[color:var(--card-bg)] shadow-hairline backdrop-blur-xl transition duration-300;
+    @apply rounded-lg bg-[color:var(--card-bg)] shadow-[0_16px_50px_rgba(60,64,67,0.10)] backdrop-blur-xl transition duration-300;
   }
 
   .metadata-label {
@@ -68,11 +105,20 @@ body {
   }
 
   .gradient-title {
-    @apply bg-gradient-to-r from-journal-navy via-journal-blue to-journal-crimson bg-clip-text text-transparent dark:from-white dark:via-blue-200 dark:to-red-200;
+    @apply bg-gradient-to-r from-[#1a73e8] via-[#12a182] to-[#d93025] bg-clip-text text-transparent dark:from-blue-200 dark:via-teal-100 dark:to-red-200;
   }
 
   .interactive-lift {
     @apply transition duration-300 ease-out hover:-translate-y-1 hover:border-journal-blue/50 hover:shadow-[0_18px_42px_rgba(8,31,61,0.10)];
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -113,6 +159,60 @@ body {
   }
 }
 
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes modal-panel-in {
+  0% {
+    opacity: 0;
+    transform: translateY(22px) scale(0.96);
+  }
+  68% {
+    transform: translateY(-3px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes modal-panel-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+}
+
+@keyframes filter-page-in {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 @layer utilities {
   .animate-soft-rise {
     animation: soft-rise 520ms cubic-bezier(0.2, 0.9, 0.25, 1) both;
@@ -124,5 +224,25 @@ body {
 
   .animate-float-in {
     animation: float-in 620ms cubic-bezier(0.2, 1.1, 0.25, 1) both;
+  }
+
+  .animate-modal-fade-in {
+    animation: modal-fade-in 180ms ease-out both;
+  }
+
+  .animate-modal-fade-out {
+    animation: modal-fade-out 220ms ease-in both;
+  }
+
+  .animate-modal-panel-in {
+    animation: modal-panel-in 320ms cubic-bezier(0.2, 1.2, 0.2, 1) both;
+  }
+
+  .animate-modal-panel-out {
+    animation: modal-panel-out 220ms ease-in both;
+  }
+
+  .animate-filter-page {
+    animation: filter-page-in 260ms cubic-bezier(0.2, 0.9, 0.25, 1) both;
   }
 }

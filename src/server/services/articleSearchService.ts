@@ -40,13 +40,17 @@ function matchesQuery(article: Article, rawQuery?: string) {
   return searchableText.includes(query);
 }
 
+function matchesAny<T extends string>(selected: T[] | undefined, value: T) {
+  return !selected || selected.length === 0 || selected.includes(value);
+}
+
 function applyFilters(articles: Article[], filters: ArticleSearchFilters) {
   return articles.filter((article) => {
     if (!matchesQuery(article, filters.query)) {
       return false;
     }
 
-    if (filters.journal && article.journal !== filters.journal) {
+    if (!matchesAny(filters.journal, article.journal)) {
       return false;
     }
 
@@ -58,29 +62,33 @@ function applyFilters(articles: Article[], filters: ArticleSearchFilters) {
       return false;
     }
 
-    if (filters.articleType && article.articleType !== filters.articleType) {
+    if (!matchesAny(filters.articleType, article.articleType)) {
       return false;
     }
 
-    if (filters.articleCategory && article.articleCategory !== filters.articleCategory) {
+    if (!matchesAny(filters.articleCategory, article.articleCategory)) {
       return false;
     }
 
-    if (filters.classification && article.classification !== filters.classification) {
+    if (!matchesAny(filters.classification, article.classification)) {
       return false;
     }
 
     if (
       filters.indexedIn &&
-      !article.datasetIndexing[filters.indexedIn].indexed
+      filters.indexedIn.length > 0 &&
+      !filters.indexedIn.some((source) => article.datasetIndexing[source].indexed)
     ) {
       return false;
     }
 
     if (
       filters.snapshot &&
+      filters.snapshot.length > 0 &&
       filters.dataset &&
-      !article.datasetIndexing[filters.dataset].indexedSnapshots.includes(filters.snapshot)
+      !filters.snapshot.some((snapshot) =>
+        article.datasetIndexing[filters.dataset ?? "Scopus"].indexedSnapshots.includes(snapshot)
+      )
     ) {
       return false;
     }

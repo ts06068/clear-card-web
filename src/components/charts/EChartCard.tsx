@@ -19,11 +19,11 @@ const ReactECharts = dynamic<EChartsReactProps>(
 );
 
 const baseChartOption: EChartsOption = {
-  color: ["#1F5D8C", "#A22A2F", "#397C7A", "#A67C2D", "#425466", "#7E1F25"],
+  color: ["#1A73E8", "#D93025", "#12A182", "#F9AB00", "#5F6368", "#7C4DFF"],
   textStyle: {
-    color: "#101828",
+    color: "#202124",
     fontFamily:
-      "Helvetica Neue, Helvetica, Arial, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+      "Google Sans, Product Sans, Helvetica Neue, Arial, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
   },
   grid: {
     left: 48,
@@ -82,10 +82,10 @@ export function EChart({
       ...option,
       tooltip: {
         backgroundColor: "#FFFFFF",
-        borderColor: "#D8DEE8",
+        borderColor: "#E0E3EB",
         borderWidth: 1,
         textStyle: {
-          color: "#101828",
+          color: "#202124",
           fontSize: 12
         },
         confine: true,
@@ -111,8 +111,8 @@ export function EChart({
           option={mergedOption}
           loadingOption={{
             text: "Loading",
-            color: "#1F5D8C",
-            textColor: "#425466",
+            color: "#1A73E8",
+            textColor: "#5F6368",
             maskColor: "rgba(255,255,255,0.72)"
           }}
           showLoading={loading}

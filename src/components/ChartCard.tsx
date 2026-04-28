@@ -8,8 +8,8 @@ export function ChartCard({
   children: React.ReactNode;
 }) {
   return (
-    <section className="academic-card">
-      <div className="border-b border-journal-line px-4 py-3">
+    <section className="academic-card overflow-hidden">
+      <div className="px-4 py-3">
         <h2 className="text-base font-semibold text-journal-ink">{title}</h2>
         {subtitle ? (
           <p className="mt-1 text-xs leading-5 text-journal-muted">{subtitle}</p>

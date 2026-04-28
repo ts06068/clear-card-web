@@ -42,7 +42,7 @@ export function PublicationYearVolumeChart({
   return (
     <EChartCard
       title="Article Volume by Publication Year"
-      subtitle="Publication-year coverage aligned to the CLEAR-CARD manuscript window, 2008 through 2022."
+      subtitle="Publication-year coverage across the cardiovascular citation literature workspace, 2008 through 2022."
       option={option}
       height={height}
     />

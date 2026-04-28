@@ -10,13 +10,27 @@ import {
 import type {
   ArticleClassification,
   ArticleSearchFilters,
-  ArticleSort
+  ArticleSort,
+  DatasetSnapshot,
+  DatasetSource,
+  Journal,
+  ArticleType,
+  ArticleCategory
 } from "@/types/bibliometric";
 
 type RawSearchParams = Record<string, string | string[] | undefined>;
+export type PlainSearchParams = Record<string, string | string[]>;
 
 function firstValue(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
+}
+
+function values(value: string | string[] | undefined) {
+  if (!value) {
+    return [];
+  }
+
+  return Array.isArray(value) ? value : [value];
 }
 
 function numberValue(value: string | string[] | undefined) {
@@ -38,6 +52,17 @@ function oneOf<T extends readonly string[]>(
   return raw && options.includes(raw as T[number]) ? (raw as T[number]) : undefined;
 }
 
+function manyOf<T extends readonly string[]>(
+  value: string | string[] | undefined,
+  options: T
+): T[number][] | undefined {
+  const selected = values(value)
+    .filter((raw) => raw.trim())
+    .filter((raw): raw is T[number] => options.includes(raw as T[number]));
+
+  return selected.length > 0 ? selected : undefined;
+}
+
 export function parseArticleSearchParams(
   params: RawSearchParams = {}
 ): ArticleSearchFilters {
@@ -46,17 +71,19 @@ export function parseArticleSearchParams(
 
   return {
     query: stringValue(params.q),
-    journal: oneOf(params.journal, JOURNALS),
+    journal: manyOf(params.journal, JOURNALS) as Journal[] | undefined,
     yearFrom,
     yearTo,
-    articleType: oneOf(params.articleType, ARTICLE_TYPES),
-    articleCategory: oneOf(params.articleCategory, ARTICLE_CATEGORIES),
-    classification: oneOf(params.classification, CLASSIFICATIONS) as
-      | ArticleClassification
+    articleType: manyOf(params.articleType, ARTICLE_TYPES) as ArticleType[] | undefined,
+    articleCategory: manyOf(params.articleCategory, ARTICLE_CATEGORIES) as
+      | ArticleCategory[]
+      | undefined,
+    classification: manyOf(params.classification, CLASSIFICATIONS) as
+      | ArticleClassification[]
       | undefined,
     dataset: oneOf(params.dataset, CITATION_DATASETS),
-    snapshot: oneOf(params.snapshot, DATASET_SNAPSHOTS),
-    indexedIn: oneOf(params.indexedIn, DATASET_SOURCES),
+    snapshot: manyOf(params.snapshot, DATASET_SNAPSHOTS) as DatasetSnapshot[] | undefined,
+    indexedIn: manyOf(params.indexedIn, DATASET_SOURCES) as DatasetSource[] | undefined,
     sort: oneOf(params.sort, [
       "publicationYearDesc",
       "totalCitationsDesc",
@@ -70,13 +97,15 @@ export function parseArticleSearchParams(
 }
 
 export function toPlainSearchParams(params: RawSearchParams = {}) {
-  const plain: Record<string, string> = {};
+  const plain: PlainSearchParams = {};
 
   for (const [key, value] of Object.entries(params)) {
-    const first = firstValue(value);
+    const validValues = values(value).filter((item) => item.trim());
 
-    if (first) {
-      plain[key] = first;
+    if (validValues.length === 1) {
+      plain[key] = validValues[0];
+    } else if (validValues.length > 1) {
+      plain[key] = validValues;
     }
   }
 

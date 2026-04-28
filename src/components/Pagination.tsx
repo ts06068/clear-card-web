@@ -1,7 +1,20 @@
 import Link from "next/link";
+import type { PlainSearchParams } from "@/lib/searchParams";
 
-function pageHref(searchParams: Record<string, string>, page: number) {
-  const params = new URLSearchParams(searchParams);
+function pageHref(searchParams: PlainSearchParams, page: number) {
+  const params = new URLSearchParams();
+
+  for (const [key, value] of Object.entries(searchParams)) {
+    if (key === "page") {
+      continue;
+    }
+
+    if (Array.isArray(value)) {
+      value.forEach((item) => params.append(key, item));
+    } else {
+      params.set(key, value);
+    }
+  }
 
   if (page <= 1) {
     params.delete("page");
@@ -13,6 +26,26 @@ function pageHref(searchParams: Record<string, string>, page: number) {
   return query ? `/articles?${query}` : "/articles";
 }
 
+function pageWindow(page: number, totalPages: number) {
+  const pages = new Set([1, totalPages, page - 1, page, page + 1]);
+
+  if (page <= 3) {
+    pages.add(2);
+    pages.add(3);
+    pages.add(4);
+  }
+
+  if (page >= totalPages - 2) {
+    pages.add(totalPages - 1);
+    pages.add(totalPages - 2);
+    pages.add(totalPages - 3);
+  }
+
+  return Array.from(pages)
+    .filter((candidate) => candidate >= 1 && candidate <= totalPages)
+    .sort((a, b) => a - b);
+}
+
 export function Pagination({
   page,
   totalPages,
@@ -20,38 +53,72 @@ export function Pagination({
 }: {
   page: number;
   totalPages: number;
-  searchParams: Record<string, string>;
+  searchParams: PlainSearchParams;
 }) {
   if (totalPages <= 1) {
     return null;
   }
 
+  const pages = pageWindow(page, totalPages);
+
   return (
-    <div className="mt-4 flex items-center justify-between text-sm">
-      <Link
-        href={pageHref(searchParams, Math.max(page - 1, 1))}
-        className={`border px-3 py-2 font-semibold ${
-          page === 1
-            ? "pointer-events-none border-journal-line text-journal-muted"
-            : "border-journal-line bg-white text-journal-slate hover:border-journal-slate"
-        }`}
-      >
-        Previous
-      </Link>
-      <span className="text-journal-muted">
-        Page <span className="font-semibold text-journal-ink">{page}</span> of{" "}
-        <span className="font-semibold text-journal-ink">{totalPages}</span>
-      </span>
-      <Link
+    <nav className="sticky bottom-4 z-20 mx-auto mt-6 flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-full bg-white/82 p-1.5 text-sm shadow-[0_14px_44px_rgba(60,64,67,0.18)] backdrop-blur-xl dark:bg-white/10">
+      <PageLink disabled={page === 1} href={pageHref(searchParams, 1)}>
+        First
+      </PageLink>
+      <PageLink disabled={page === 1} href={pageHref(searchParams, Math.max(page - 1, 1))}>
+        Prev
+      </PageLink>
+      {pages.map((candidate, index) => {
+        const previous = pages[index - 1];
+        const showGap = previous !== undefined && candidate - previous > 1;
+
+        return (
+          <span key={candidate} className="flex items-center gap-1">
+            {showGap ? <span className="px-1 text-journal-muted">...</span> : null}
+            <PageLink active={candidate === page} href={pageHref(searchParams, candidate)}>
+              {candidate}
+            </PageLink>
+          </span>
+        );
+      })}
+      <PageLink
+        disabled={page === totalPages}
         href={pageHref(searchParams, Math.min(page + 1, totalPages))}
-        className={`border px-3 py-2 font-semibold ${
-          page === totalPages
-            ? "pointer-events-none border-journal-line text-journal-muted"
-            : "border-journal-line bg-white text-journal-slate hover:border-journal-slate"
-        }`}
       >
         Next
-      </Link>
-    </div>
+      </PageLink>
+      <PageLink disabled={page === totalPages} href={pageHref(searchParams, totalPages)}>
+        Last
+      </PageLink>
+    </nav>
+  );
+}
+
+function PageLink({
+  href,
+  children,
+  active = false,
+  disabled = false
+}: {
+  href: string;
+  children: React.ReactNode;
+  active?: boolean;
+  disabled?: boolean;
+}) {
+  return (
+    <Link
+      href={href}
+      aria-disabled={disabled}
+      className={`inline-flex min-h-10 min-w-10 items-center justify-center rounded-full px-3 font-semibold transition ${
+        active
+          ? "bg-journal-ink text-white shadow-[0_8px_20px_rgba(60,64,67,0.18)]"
+          : disabled
+            ? "pointer-events-none text-journal-muted/50"
+            : "text-journal-slate hover:bg-journal-surface hover:text-journal-ink"
+      }`}
+    >
+      {children}
+    </Link>
   );
 }

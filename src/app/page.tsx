@@ -1,12 +1,4 @@
-import { ArticleTable } from "@/components/ArticleTable";
-import {
-  CategoryDistributionChart,
-  JournalVolumeChart,
-  PublicationYearVolumeChart
-} from "@/components/charts/BibliometricCharts";
 import { CitationNetworkExplorer } from "@/components/charts/CitationNetworkExplorer";
-import { MetricCard } from "@/components/MetricCard";
-import { formatInteger, formatOneDecimal } from "@/lib/format";
 import { bibliometricRepository } from "@/server/repositories";
 import { getHomeDashboardData } from "@/server/services";
 
@@ -14,92 +6,28 @@ export default async function HomePage() {
   const dashboard = await getHomeDashboardData(bibliometricRepository);
 
   return (
-    <>
-      <section className="mb-6 animate-gentle-pop overflow-hidden border border-journal-line bg-[color:var(--card-bg)] p-5 backdrop-blur-xl sm:p-7">
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_460px] lg:items-end">
-          <div>
-            <p className="metadata-label">CLEAR-CARD interactive atlas</p>
-            <h1 className="gradient-title mt-3 max-w-5xl text-5xl font-semibold leading-[1.02] sm:text-6xl">
-              Citation networks reveal the drift from original research to secondary literature.
-            </h1>
-            <p className="mt-4 max-w-3xl text-xl leading-8 text-journal-slate">
-              Search article dossiers, compare Scopus and iCite snapshots, and explore manuscript result tables as live charts.
-            </p>
+    <div className="relative h-screen overflow-hidden">
+      <CitationNetworkExplorer data={dashboard.citationNetwork} />
+
+      <section className="pointer-events-none absolute inset-x-4 top-[9vh] z-10 mx-auto max-w-5xl animate-gentle-pop text-center sm:top-[10vh]">
+        <h1 className="gradient-title text-5xl font-semibold leading-[1.02] sm:text-7xl">
+          Citation Landscape Explorer in Cardiovascular Journals, 2008-2022
+        </h1>
+        <form action="/articles" className="pointer-events-auto mx-auto mt-7 max-w-3xl">
+          <div className="flex items-center gap-3 rounded-full bg-white px-5 py-3 shadow-[0_10px_36px_rgba(60,64,67,0.18)] ring-1 ring-black/5 transition duration-300 focus-within:shadow-[0_16px_48px_rgba(60,64,67,0.22)] dark:bg-white/10 dark:ring-white/10">
+            <span className="h-5 w-5 rounded-full border-2 border-journal-muted" />
+            <input
+              id="home-search"
+              name="q"
+              placeholder="Search articles, authors, DOI, taxonomy, keyword"
+              className="min-w-0 flex-1 bg-transparent px-1 py-2 text-lg text-journal-ink outline-none placeholder:text-journal-muted"
+            />
+            <button className="rounded-full bg-journal-ink px-5 py-2.5 text-sm font-semibold text-white shadow-[0_8px_22px_rgba(60,64,67,0.18)] transition duration-300 hover:-translate-y-0.5">
+              Search
+            </button>
           </div>
-          <form action="/articles" className="grid gap-3 border border-journal-line bg-white/70 p-4 shadow-hairline dark:bg-white/5">
-            <label className="metadata-label" htmlFor="home-search">
-              Article search
-            </label>
-            <div className="flex gap-2">
-              <input
-                id="home-search"
-                name="q"
-                placeholder="Search title, DOI, taxonomy, author, keyword"
-                className="min-w-0 flex-1 border border-journal-line bg-white/85 px-4 py-4 text-base text-journal-ink outline-none transition focus:border-journal-blue focus:ring-2 focus:ring-journal-blue/20 dark:bg-white/5"
-              />
-              <button className="border border-journal-navy bg-journal-navy px-5 py-4 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:bg-[#102D52]">
-                Search
-              </button>
-            </div>
-            <div className="flex flex-wrap gap-2 text-xs font-semibold text-journal-muted">
-              <span>ORA</span>
-              <span>NORA</span>
-              <span>GSS</span>
-              <span>fitness</span>
-              <span>2-year citations</span>
-              <span>taxonomy header</span>
-            </div>
-          </form>
-        </div>
+        </form>
       </section>
-
-      <section className="mb-6">
-        <CitationNetworkExplorer data={dashboard.citationNetwork} />
-      </section>
-
-      <section className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-        <MetricCard
-          label="Total articles"
-          value={formatInteger(dashboard.metrics.totalArticles)}
-        />
-        <MetricCard
-          label="Total citations"
-          value={formatInteger(dashboard.metrics.totalCitations)}
-        />
-        <MetricCard
-          label="Mean 2-year citations"
-          value={formatOneDecimal(dashboard.metrics.meanTwoYearCitationCount)}
-        />
-        <MetricCard
-          label="Journals"
-          value={formatInteger(dashboard.metrics.journalCount)}
-        />
-        <MetricCard
-          label="Categories"
-          value={formatInteger(dashboard.metrics.categoryCount)}
-        />
-      </section>
-
-      <section className="mb-6 grid gap-5 lg:grid-cols-2">
-        <JournalVolumeChart data={dashboard.articleVolumeByJournal} />
-        <PublicationYearVolumeChart data={dashboard.articleVolumeByYear} />
-      </section>
-
-      <section className="mb-6">
-        <CategoryDistributionChart data={dashboard.categoryDistribution} />
-      </section>
-
-      <section>
-        <div className="mb-3 flex items-end justify-between gap-3">
-          <div>
-            <p className="metadata-label">Citation leaders</p>
-            <h2 className="text-lg font-semibold text-journal-ink">
-              Top 10 Articles by Total Citation Count
-            </h2>
-          </div>
-        </div>
-        <ArticleTable articles={dashboard.topArticles} showRank />
-      </section>
-    </>
+    </div>
   );
 }

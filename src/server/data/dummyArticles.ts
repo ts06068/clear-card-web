@@ -369,7 +369,7 @@ function makeAbstract(
       ? "This record represents primary research in the CLEAR-CARD explorer prototype."
       : "This record represents non-original cardiovascular literature used to model contribution to journal citation metrics.";
 
-  return `Background: ${focus} remains central to cardiovascular publishing. Methods: This local ${design} represents ${population} and is generated deterministically for development. Results: Citation counts, fitness, indexing status, and citation links are skewed to mimic bibliometric distributions described in the CLEAR-CARD manuscript. Conclusions: ${categorySentence}`;
+  return `Background: ${focus} remains central to cardiovascular publishing. Methods: This local ${design} represents ${population} and is generated deterministically for development. Results: Citation counts, fitness, indexing status, and citation links are skewed to mimic cardiovascular bibliometric distributions. Conclusions: ${categorySentence}`;
 }
 
 function makeKeywords(area: ClinicalArea, random: () => number) {

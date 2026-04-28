@@ -136,15 +136,15 @@ export type ArticleSort =
 
 export interface ArticleSearchFilters {
   query?: string;
-  journal?: Journal;
+  journal?: Journal[];
   yearFrom?: number;
   yearTo?: number;
-  articleType?: ArticleType;
-  articleCategory?: ArticleCategory;
-  classification?: ArticleClassification;
+  articleType?: ArticleType[];
+  articleCategory?: ArticleCategory[];
+  classification?: ArticleClassification[];
   dataset?: CitationDataset;
-  snapshot?: DatasetSnapshot;
-  indexedIn?: DatasetSource;
+  snapshot?: DatasetSnapshot[];
+  indexedIn?: DatasetSource[];
   sort?: ArticleSort;
   page?: number;
   pageSize?: number;
@@ -220,13 +220,15 @@ export interface ArticleDetailResult {
 export interface CitationNetworkNode {
   id: string;
   title: string;
-  journal: Journal;
+  journal: string;
   publicationYear: number;
-  articleCategory: ArticleCategory;
-  classification: ArticleClassification;
+  articleCategory: ArticleCategory | "External Citation";
+  classification: ArticleClassification | "External";
   totalCitationCount: number;
   twoYearCitationCount: number;
   fitness: number;
+  sourceType: "target-journal" | "external-citing";
+  targetArticleId?: string;
 }
 
 export interface CitationNetworkEdge {

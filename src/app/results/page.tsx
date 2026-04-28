@@ -1,18 +1,35 @@
 import { ResultsAtlas } from "@/components/charts/ResultsAtlas";
 import { PageHeader } from "@/components/PageHeader";
+import { bibliometricRepository } from "@/server/repositories";
 import { getResearchResults } from "@/server/services";
 
 export default async function ResultsPage() {
-  const dataset = await getResearchResults();
+  const [dataset, articles] = await Promise.all([
+    getResearchResults(),
+    bibliometricRepository.getArticles()
+  ]);
+  const distributions = articles.map((article) => ({
+    id: article.id,
+    title: article.title,
+    journal: article.journal,
+    publicationDate: article.publicationDate,
+    publicationYear: article.publicationYear,
+    articleType: article.articleType,
+    articleCategory: article.articleCategory,
+    classification: article.classification,
+    totalCitationCount: article.totalCitationCount,
+    twoYearCitationCount: article.twoYearCitationCount,
+    fitness: article.fitness
+  }));
 
   return (
     <>
       <PageHeader
-        title="Results Atlas"
-        subtitle="Interactive chart access to the main figure concepts and all extracted supplemental result tables from the CLEAR-CARD manuscript files."
-        eyebrow="CLEAR-CARD manuscript outputs"
+        title="Reports"
+        subtitle="Create article-level and journal-year views for cardiovascular citation literature analysis, then open the matching articles directly from plots."
+        eyebrow="Citation analytics"
       />
-      <ResultsAtlas dataset={dataset} />
+      <ResultsAtlas dataset={dataset} articleDistributions={distributions} />
     </>
   );
 }

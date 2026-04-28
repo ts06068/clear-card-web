@@ -4,7 +4,7 @@ import { AppShell } from "@/components/AppShell";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
-  title: "CLEAR-CARD Atlas",
+  title: "Citation Landscape Explorer in Cardiovascular Journals",
   description: "Interactive cardiovascular bibliometric analytics workspace."
 };
 
