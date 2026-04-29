@@ -42,15 +42,15 @@ export function RouteTransitionLayer() {
       safetyRef.current = setTimeout(() => setLoading(false), 2400);
     };
 
-    const show = (event: Event) => {
+    const showNavigation = (event: Event) => {
       if (event.type === "clear-card:navigate") {
         showLoading();
-        return;
       }
+    };
 
+    const showLinkNavigation = (event: MouseEvent) => {
       const target = event.target instanceof HTMLElement ? event.target : null;
       const anchor = target?.closest("a");
-      const form = target?.closest("form");
 
       if (anchor) {
         const href = anchor.getAttribute("href");
@@ -59,19 +59,23 @@ export function RouteTransitionLayer() {
           showLoading();
         }
       }
+    };
 
-      if (form?.getAttribute("action")?.startsWith("/")) {
+    const showFormNavigation = (event: SubmitEvent) => {
+      const target = event.target instanceof HTMLFormElement ? event.target : null;
+
+      if (target?.getAttribute("action")?.startsWith("/")) {
         showLoading();
       }
     };
 
-    document.addEventListener("click", show, true);
-    document.addEventListener("submit", show, true);
-    document.addEventListener("clear-card:navigate", show);
+    document.addEventListener("click", showLinkNavigation, true);
+    document.addEventListener("submit", showFormNavigation, true);
+    document.addEventListener("clear-card:navigate", showNavigation);
     return () => {
-      document.removeEventListener("click", show, true);
-      document.removeEventListener("submit", show, true);
-      document.removeEventListener("clear-card:navigate", show);
+      document.removeEventListener("click", showLinkNavigation, true);
+      document.removeEventListener("submit", showFormNavigation, true);
+      document.removeEventListener("clear-card:navigate", showNavigation);
     };
   }, []);
 

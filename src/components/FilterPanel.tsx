@@ -118,24 +118,21 @@ export function FilterPanel({
   }, [closeDialog, open]);
 
   return (
-    <div className="mb-5 animate-soft-rise">
-      <div className="flex flex-col gap-3 rounded-[28px] bg-white/72 p-3 shadow-[0_18px_54px_rgba(60,64,67,0.10)] backdrop-blur-xl dark:bg-white/5 sm:flex-row sm:items-center sm:justify-between">
+    <>
+      <div className="fixed bottom-5 left-4 z-40 animate-soft-rise sm:bottom-6 sm:left-6">
         <button
           type="button"
           onClick={openDialog}
-          className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-journal-ink px-5 py-3 text-sm font-semibold text-white shadow-[0_10px_26px_rgba(60,64,67,0.18)] transition hover:-translate-y-0.5"
+          className="group inline-flex min-h-14 max-w-[calc(100vw-2rem)] items-center gap-3 rounded-full bg-journal-ink px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_54px_rgba(60,64,67,0.26)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(60,64,67,0.30)]"
         >
-          <FilterIcon />
-          Search and filters
-        </button>
-        <div className="min-w-0 text-sm text-journal-muted sm:text-right">
-          <span className="font-semibold text-journal-ink">
-            {activeCount > 0 ? `${activeCount} active setting${activeCount === 1 ? "" : "s"}` : "All articles"}
+          <span className="grid h-9 w-9 place-items-center rounded-full bg-white/12 transition group-hover:rotate-6 group-hover:bg-white/18">
+            <FilterIcon />
           </span>
-          {filters.query ? (
-            <span className="ml-2 truncate">Search: {filters.query}</span>
-          ) : null}
-        </div>
+          <span className="whitespace-nowrap">Search and filters</span>
+          <span className="rounded-full bg-white/14 px-2.5 py-1 text-xs font-semibold text-white/86">
+            {activeCount > 0 ? activeCount : "All"}
+          </span>
+        </button>
       </div>
 
       {mounted && open
@@ -151,7 +148,7 @@ export function FilterPanel({
             document.body
           )
         : null}
-    </div>
+    </>
   );
 }
 
