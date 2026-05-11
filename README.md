@@ -63,6 +63,30 @@ npm run dev
 
 Then open the local URL printed by Next.js, usually `http://localhost:3000`.
 
+## Run Production Build Locally
+
+```bash
+npm run build
+npm run start
+```
+
+## Docker
+
+Build and run the production image directly:
+
+```bash
+docker build -t clear-card-web .
+docker run --rm -p 3000:3000 clear-card-web
+```
+
+Or use Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+The container serves the Next.js standalone production server on `http://localhost:3000`.
+
 ## Quality Checks
 
 ```bash

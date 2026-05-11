@@ -16,15 +16,16 @@ export default async function ArticlesPage({
 }) {
   const rawParams = (await searchParams) ?? {};
   const filters = parseArticleSearchParams(rawParams);
-  const [results, options] = await Promise.all([
+  const [results, options, allArticles] = await Promise.all([
     searchArticles(bibliometricRepository, filters),
-    getFilterOptions(bibliometricRepository)
+    getFilterOptions(bibliometricRepository),
+    bibliometricRepository.getArticles()
   ]);
 
   return (
     <>
       <PageHeader
-        title="Article Search"
+        title="Article Explorer"
         subtitle="Article-level explorer with journal taxonomy, article category, source indexing, snapshot filters, citation trajectories, references, and co-citation context."
         eyebrow="Index"
       />
@@ -49,7 +50,14 @@ export default async function ArticlesPage({
           </p>
         </div>
 
-        <ArticleTable articles={results.items} citationDataset={filters.dataset ?? "Scopus"} />
+        <ArticleTable
+          articles={results.items}
+          citationDataset={filters.dataset ?? "Scopus"}
+          sortable
+          searchParams={toPlainSearchParams(rawParams)}
+          sortCriteria={filters.order}
+          allArticles={allArticles}
+        />
         <Pagination
           page={results.page}
           totalPages={results.totalPages}

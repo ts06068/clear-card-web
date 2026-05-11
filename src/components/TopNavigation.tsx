@@ -15,11 +15,11 @@ export function TopNavigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="group fixed right-3 top-3 z-50 flex max-w-[calc(100vw-1.5rem)] items-center gap-1 overflow-hidden rounded-full border border-journal-line/70 bg-[color:var(--card-bg)] p-1 shadow-[0_18px_60px_rgba(60,64,67,0.18)] backdrop-blur-2xl transition-all duration-500 ease-out hover:gap-2 hover:p-1.5 focus-within:gap-2 focus-within:p-1.5 sm:right-6 sm:top-6">
+    <nav className="group fixed right-3 top-3 z-50 flex max-w-[calc(100vw-1.5rem)] flex-row-reverse items-center overflow-visible sm:right-6 sm:top-6">
       <button
         type="button"
         aria-label="Open navigation"
-        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-journal-ink text-white shadow-[0_10px_30px_rgba(60,64,67,0.22)] outline-none transition duration-500 group-hover:rotate-90 group-focus-within:rotate-90"
+        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#202124] text-white shadow-[0_10px_30px_rgba(60,64,67,0.24)] outline-none ring-1 ring-white/15 transition duration-[720ms] ease-[cubic-bezier(0.18,1.35,0.28,1)] group-hover:rotate-90 group-hover:scale-105 group-focus-within:rotate-90 group-focus-within:scale-105"
       >
         <span className="grid gap-1">
           <span className="block h-0.5 w-4 rounded-full bg-white" />
@@ -27,7 +27,7 @@ export function TopNavigation() {
           <span className="block h-0.5 w-4 rounded-full bg-white" />
         </span>
       </button>
-      <div className="flex max-w-0 items-center gap-1 overflow-hidden opacity-0 transition-all duration-500 ease-out group-hover:max-w-[760px] group-hover:opacity-100 group-focus-within:max-w-[760px] group-focus-within:opacity-100">
+      <div className="pointer-events-none mr-0 flex max-w-0 origin-right scale-x-90 items-center overflow-hidden rounded-full border border-transparent bg-transparent p-0 opacity-0 shadow-none backdrop-blur-none transition-[max-width,margin-right,opacity,transform,padding,background-color,border-color,box-shadow,backdrop-filter] duration-[720ms] ease-[cubic-bezier(0.18,1.35,0.28,1)] group-hover:pointer-events-auto group-hover:mr-2 group-hover:max-w-[calc(100vw-5.5rem)] group-hover:scale-x-100 group-hover:border-journal-line/70 group-hover:bg-[color:var(--card-bg)] group-hover:p-1 group-hover:opacity-100 group-hover:shadow-[0_18px_60px_rgba(60,64,67,0.18)] group-hover:backdrop-blur-2xl group-focus-within:pointer-events-auto group-focus-within:mr-2 group-focus-within:max-w-[calc(100vw-5.5rem)] group-focus-within:scale-x-100 group-focus-within:border-journal-line/70 group-focus-within:bg-[color:var(--card-bg)] group-focus-within:p-1 group-focus-within:opacity-100 group-focus-within:shadow-[0_18px_60px_rgba(60,64,67,0.18)] group-focus-within:backdrop-blur-2xl">
         <div className="no-scrollbar flex max-w-[calc(100vw-5.5rem)] items-center gap-1 overflow-x-auto text-sm">
           {links.map((link) => {
             const active =
@@ -40,7 +40,7 @@ export function TopNavigation() {
                 href={link.href}
                 className={`inline-flex min-h-10 items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 font-medium transition duration-300 ${
                   active
-                    ? "bg-journal-ink text-white shadow-[0_8px_20px_rgba(60,64,67,0.16)]"
+                    ? "bg-journal-control text-journal-control-ink shadow-[0_8px_20px_rgba(60,64,67,0.16)]"
                     : "text-journal-slate hover:bg-journal-surface hover:text-journal-ink"
                 }`}
               >

@@ -134,7 +134,28 @@ export type ArticleSort =
   | "fitnessDesc"
   | "titleAsc";
 
+export type ArticleOrderKey =
+  | "title"
+  | "journal"
+  | "publicationYear"
+  | "articleCategory"
+  | "taxonomy"
+  | "totalCitations"
+  | "twoYearCitations"
+  | "fitness"
+  | "jifYearOneContribution"
+  | "jifYearTwoContribution"
+  | "citationTrajectory";
+
+export type SortDirection = "asc" | "desc";
+
+export interface ArticleSortCriterion {
+  key: ArticleOrderKey;
+  direction: SortDirection;
+}
+
 export interface ArticleSearchFilters {
+  ids?: string[];
   query?: string;
   journal?: Journal[];
   yearFrom?: number;
@@ -146,6 +167,7 @@ export interface ArticleSearchFilters {
   snapshot?: DatasetSnapshot[];
   indexedIn?: DatasetSource[];
   sort?: ArticleSort;
+  order?: ArticleSortCriterion[];
   page?: number;
   pageSize?: number;
 }

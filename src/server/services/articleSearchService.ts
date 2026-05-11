@@ -4,6 +4,7 @@ import type {
   ArticleSearchFilters,
   PaginatedResult
 } from "@/types/bibliometric";
+import { compareArticlesByCriteria } from "@/lib/articleAnalytics";
 
 const DEFAULT_PAGE_SIZE = 20;
 
@@ -46,6 +47,10 @@ function matchesAny<T extends string>(selected: T[] | undefined, value: T) {
 
 function applyFilters(articles: Article[], filters: ArticleSearchFilters) {
   return articles.filter((article) => {
+    if (filters.ids && filters.ids.length > 0 && !filters.ids.includes(article.id)) {
+      return false;
+    }
+
     if (!matchesQuery(article, filters.query)) {
       return false;
     }
@@ -100,9 +105,23 @@ function applyFilters(articles: Article[], filters: ArticleSearchFilters) {
 function sortArticles(
   articles: Article[],
   sort: ArticleSearchFilters["sort"] = "publicationYearDesc",
-  dataset: ArticleSearchFilters["dataset"] = "Scopus"
+  dataset: ArticleSearchFilters["dataset"] = "Scopus",
+  order: ArticleSearchFilters["order"] = [],
+  allArticles: Article[] = articles
 ) {
   const sorted = [...articles];
+
+  if (order.length > 0) {
+    return sorted.sort((a, b) => {
+      const compared = compareArticlesByCriteria(a, b, order, dataset, allArticles);
+
+      if (compared !== 0) {
+        return compared;
+      }
+
+      return b.publicationYear - a.publicationYear;
+    });
+  }
 
   if (sort === "totalCitationsDesc") {
     return sorted.sort(
@@ -149,7 +168,7 @@ export async function searchArticles(
   const page = Math.max(filters.page ?? 1, 1);
   const articles = await repository.getArticles();
   const filtered = applyFilters(articles, filters);
-  const sorted = sortArticles(filtered, filters.sort, filters.dataset);
+  const sorted = sortArticles(filtered, filters.sort, filters.dataset, filters.order, articles);
   const totalPages = Math.max(Math.ceil(sorted.length / pageSize), 1);
   const boundedPage = Math.min(page, totalPages);
   const start = (boundedPage - 1) * pageSize;

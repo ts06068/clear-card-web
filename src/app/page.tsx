@@ -22,7 +22,7 @@ export default async function HomePage() {
               placeholder="Search articles, authors, DOI, taxonomy, keyword"
               className="min-w-0 flex-1 bg-transparent px-1 py-2 text-lg text-journal-ink outline-none placeholder:text-journal-muted"
             />
-            <button className="rounded-full bg-journal-ink px-5 py-2.5 text-sm font-semibold text-white shadow-[0_8px_22px_rgba(60,64,67,0.18)] transition duration-300 hover:-translate-y-0.5">
+            <button className="rounded-full bg-journal-control px-5 py-2.5 text-sm font-semibold text-journal-control-ink shadow-[0_8px_22px_rgba(60,64,67,0.18)] transition duration-300 hover:-translate-y-0.5">
               Search
             </button>
           </div>

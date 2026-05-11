@@ -49,7 +49,7 @@ function ThemeButton({
       onClick={onClick}
       className={`grid h-9 w-9 place-items-center rounded-full transition ${
         active
-          ? "bg-journal-ink text-white"
+          ? "bg-journal-control text-journal-control-ink"
           : "text-journal-slate hover:bg-journal-surface hover:text-journal-ink"
       }`}
     >

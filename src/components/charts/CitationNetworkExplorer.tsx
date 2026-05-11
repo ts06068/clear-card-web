@@ -280,7 +280,7 @@ export function CitationNetworkExplorer({ data }: { data: CitationNetworkData })
                 onClick={() => setTimeMode(mode)}
                 className={`rounded-full px-4 py-2 capitalize transition ${
                   timeMode === mode
-                    ? "bg-journal-ink text-white shadow-[0_8px_20px_rgba(60,64,67,0.18)]"
+                    ? "bg-journal-control text-journal-control-ink shadow-[0_8px_20px_rgba(60,64,67,0.18)]"
                     : "text-journal-slate hover:bg-white/70"
                 }`}
               >

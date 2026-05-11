@@ -2036,7 +2036,7 @@ export function ResultsAtlas({
               }}
               className={`rounded-full px-4 py-2.5 text-sm font-semibold transition ${
                 candidate.id === workspaceId
-                  ? "bg-journal-ink text-white shadow-[0_10px_24px_rgba(60,64,67,0.18)]"
+                  ? "bg-journal-control text-journal-control-ink shadow-[0_10px_24px_rgba(60,64,67,0.18)]"
                   : "bg-white/72 text-journal-slate shadow-hairline hover:bg-journal-surface dark:bg-white/8"
               }`}
             >
@@ -2060,14 +2060,14 @@ export function ResultsAtlas({
                 }}
                 className={`rounded-lg px-3 py-3 text-left transition ${
                   candidate.id === table.id
-                    ? "bg-journal-ink text-white shadow-[0_10px_28px_rgba(60,64,67,0.18)]"
+                    ? "bg-journal-control text-journal-control-ink shadow-[0_10px_28px_rgba(60,64,67,0.18)]"
                     : "bg-transparent text-journal-slate hover:bg-white/80 dark:hover:bg-white/10"
                 }`}
               >
                 <span className="block text-sm font-semibold leading-5">
                   {cleanResultTitle(candidate.title)}
                 </span>
-                <span className={candidate.id === table.id ? "mt-1 block text-xs text-white/72" : "mt-1 block text-xs text-journal-muted"}>
+                <span className={candidate.id === table.id ? "mt-1 block text-xs text-journal-control-ink opacity-70" : "mt-1 block text-xs text-journal-muted"}>
                   {candidate.records.length} journal-year rows · {candidate.columns.length} measures
                 </span>
               </button>
@@ -2091,7 +2091,7 @@ export function ResultsAtlas({
                   onClick={() => setChartMode(mode.id)}
                   className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
                     chartMode === mode.id
-                      ? "bg-journal-ink text-white shadow-[0_8px_20px_rgba(60,64,67,0.16)]"
+                      ? "bg-journal-control text-journal-control-ink shadow-[0_8px_20px_rgba(60,64,67,0.16)]"
                       : "bg-white/80 text-journal-slate hover:bg-journal-surface dark:bg-white/10"
                   }`}
                 >
@@ -2337,7 +2337,7 @@ function SegmentedControl<T extends string>({
           onClick={() => onChange(option.id)}
           className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
             value === option.id
-              ? "bg-journal-ink text-white shadow-[0_8px_20px_rgba(60,64,67,0.16)]"
+              ? "bg-journal-control text-journal-control-ink shadow-[0_8px_20px_rgba(60,64,67,0.16)]"
               : "text-journal-slate hover:bg-white/80 hover:text-journal-ink dark:hover:bg-white/10"
           }`}
         >

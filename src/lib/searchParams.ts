@@ -8,8 +8,10 @@ import {
   JOURNALS
 } from "@/types/bibliometric";
 import type {
+  ArticleOrderKey,
   ArticleClassification,
   ArticleSearchFilters,
+  ArticleSortCriterion,
   ArticleSort,
   DatasetSnapshot,
   DatasetSource,
@@ -20,6 +22,20 @@ import type {
 
 type RawSearchParams = Record<string, string | string[] | undefined>;
 export type PlainSearchParams = Record<string, string | string[]>;
+
+const ARTICLE_ORDER_KEYS = [
+  "title",
+  "journal",
+  "publicationYear",
+  "articleCategory",
+  "taxonomy",
+  "totalCitations",
+  "twoYearCitations",
+  "fitness",
+  "jifYearOneContribution",
+  "jifYearTwoContribution",
+  "citationTrajectory"
+] as const satisfies readonly ArticleOrderKey[];
 
 function firstValue(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
@@ -63,6 +79,28 @@ function manyOf<T extends readonly string[]>(
   return selected.length > 0 ? selected : undefined;
 }
 
+function articleOrder(value: string | string[] | undefined): ArticleSortCriterion[] | undefined {
+  const criteria = values(value)
+    .map((raw) => {
+      const [key, direction] = raw.split(":");
+
+      if (
+        !ARTICLE_ORDER_KEYS.includes(key as ArticleOrderKey) ||
+        (direction !== "asc" && direction !== "desc")
+      ) {
+        return null;
+      }
+
+      return {
+        key: key as ArticleOrderKey,
+        direction
+      };
+    })
+    .filter((criterion): criterion is ArticleSortCriterion => Boolean(criterion));
+
+  return criteria.length > 0 ? criteria : undefined;
+}
+
 export function parseArticleSearchParams(
   params: RawSearchParams = {}
 ): ArticleSearchFilters {
@@ -70,6 +108,7 @@ export function parseArticleSearchParams(
   const yearTo = numberValue(params.yearTo);
 
   return {
+    ids: values(params.ids).filter((value) => value.trim()),
     query: stringValue(params.q),
     journal: manyOf(params.journal, JOURNALS) as Journal[] | undefined,
     yearFrom,
@@ -91,6 +130,7 @@ export function parseArticleSearchParams(
       "fitnessDesc",
       "titleAsc"
     ] as const) as ArticleSort | undefined,
+    order: articleOrder(params.order),
     page: numberValue(params.page),
     pageSize: 20
   };

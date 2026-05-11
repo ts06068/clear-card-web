@@ -112,7 +112,7 @@ function PageLink({
       aria-disabled={disabled}
       className={`inline-flex min-h-10 min-w-10 items-center justify-center rounded-full px-3 font-semibold transition ${
         active
-          ? "bg-journal-ink text-white shadow-[0_8px_20px_rgba(60,64,67,0.18)]"
+          ? "bg-journal-control text-journal-control-ink shadow-[0_8px_20px_rgba(60,64,67,0.18)]"
           : disabled
             ? "pointer-events-none text-journal-muted/50"
             : "text-journal-slate hover:bg-journal-surface hover:text-journal-ink"

@@ -1,56 +1,75 @@
 import { PageHeader } from "@/components/PageHeader";
 
-const sections = [
-  {
-    title: "Aim",
-    body: "CLEAR-CARD is built to make cardiovascular citation literature easier to inspect at article, category, journal, and citation-network levels. The platform helps users compare how articles are indexed, cited, categorized, and connected over time without forcing them through static tables."
-  },
-  {
-    title: "Journal Scope",
-    body: "The project follows cardiovascular articles published from January 1, 2008 through December 31, 2022 in Journal of the American College of Cardiology, Circulation, European Heart Journal, and JAMA Cardiology. Citation snapshots were collected late enough to support 2-year citation windows through 2022 and 5-year citation trajectories through 2019."
-  },
-  {
-    title: "Data Sources",
-    body: "Scopus is the primary source for article metadata and citation records. NIH iCite is used as a validation source for PubMed-indexed records, while Web of Science is used for indexing comparison and total-citation agreement checks."
-  },
-  {
-    title: "Article Collection",
-    body: "Articles were collected by journal source identifiers and publication year. Records were screened for a valid title, DOI, publication date, issue or volume context, and duplicates before being linked to citation records."
-  },
-  {
-    title: "Article Categories",
-    body: "Categorization starts from the taxonomy headers shown on each journal website, using three-level section placement when available. Those headers are mapped into standardized groups: original research articles, reviews, meta-analyses, guidelines/statements/statistics, and non-citable items."
-  },
-  {
-    title: "Classification Review",
-    body: "Taxonomy-based labels are checked against article titles, abstracts, page spans, publication context, and citation metadata. Manual review resolves mismatches, and an LLM-based review pass is used as an additional plausibility check before adjudication."
-  },
-  {
-    title: "Citation Measures",
-    body: "Short-term impact is represented with 2-year citation counts. Longer-term behavior is represented with 5-year citation trajectories and article fitness estimates. Reports can also compare publication volume, citation share, simulated journal impact factor components, and citing-journal quality metrics."
-  },
-  {
-    title: "Platform Use",
-    body: "The interface is organized for exploration rather than linear reading: users can search articles, filter by indexing source and category, inspect references and citing records, open citation trajectories, and build customized reports from the same citation-literature workspace."
-  }
-];
-
 export default function AboutPage() {
   return (
     <>
       <PageHeader
         title="About"
-        subtitle="A cardiovascular citation-literature workspace for exploring article categories, source indexing, citation trajectories, and journal-level reports."
+        subtitle="CLEAR-CARD is a cardiovascular citation-literature workspace for examining article categories, indexing sources, citation trajectories, and journal-level evidence."
         eyebrow="CLEAR-CARD platform"
       />
-      <section className="mx-auto grid max-w-7xl gap-4 md:grid-cols-2">
-        {sections.map((section) => (
-          <article key={section.title} className="academic-card px-5 py-4">
-            <h2 className="text-base font-semibold text-journal-ink">{section.title}</h2>
-            <p className="mt-2 text-sm leading-6 text-journal-slate">{section.body}</p>
-          </article>
-        ))}
-      </section>
+
+      <article className="mx-auto max-w-4xl space-y-8 pb-12 text-lg leading-8 text-journal-slate">
+        <section>
+          <h2 className="text-2xl font-semibold text-journal-ink">Purpose</h2>
+          <p className="mt-3">
+            CLEAR-CARD is designed for people who need to read citation data with the same care
+            they bring to a manuscript or editorial report. The interface links article metadata,
+            journal taxonomy, indexing status, citation trajectories, and citation-network context
+            so that users can move from a journal-level pattern to the individual articles behind it.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-semibold text-journal-ink">Scope</h2>
+          <p className="mt-3">
+            The workspace follows cardiovascular literature from four major journals between 2008
+            and 2022: Journal of the American College of Cardiology, Circulation, European Heart
+            Journal, and JAMA Cardiology. The design emphasizes comparisons across publication
+            year, article category, journal taxonomy, indexing source, and citation timing.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-semibold text-journal-ink">Data Model</h2>
+          <p className="mt-3">
+            Each article is represented with publication metadata, authorship, DOI, journal
+            taxonomy headers, standardized article categories, source-specific indexing labels,
+            references, citing records, and temporal citation counts. Scopus and iCite can be
+            selected as citation sources, while Web of Science indexing status is retained for
+            source comparison.
+          </p>
+          <p className="mt-3">
+            Article categories are derived from journal taxonomy and publication context, then
+            normalized into groups that are meaningful for editorial review: original research,
+            reviews, meta-analyses, guidelines and statements, editorials, and other non-original
+            material. The goal is to keep the source taxonomy visible while making cross-journal
+            comparisons possible.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-semibold text-journal-ink">How To Read The Reports</h2>
+          <p className="mt-3">
+            The reports are meant to be read as evidence summaries rather than as dashboards.
+            Journal-level metrics lead to the citable items and citing articles that form the
+            numerator and denominator. Citation-performance views show which articles gain early
+            attention, which sustain attention, and which contribute less than expected. Citation
+            age views describe whether influence arrives quickly, persists, or returns later through
+            newer citing literature.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-semibold text-journal-ink">Current Implementation</h2>
+          <p className="mt-3">
+            This local build uses an internally consistent demonstration dataset so the full
+            workflow can be inspected without external database credentials. The repository and
+            service layers are organized so that the same interface can later be backed by SQL
+            Server tables populated from licensed citation sources.
+          </p>
+        </section>
+      </article>
     </>
   );
 }

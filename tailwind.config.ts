@@ -18,6 +18,8 @@ const config: Config = {
           muted: "var(--color-muted)",
           line: "var(--color-line)",
           surface: "var(--color-surface)",
+          control: "var(--color-control)",
+          "control-ink": "var(--color-control-ink)",
           crimson: "#A22A2F",
           crimsonDark: "#7E1F25",
           blue: "#1F5D8C",
